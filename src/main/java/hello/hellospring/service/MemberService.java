@@ -5,10 +5,12 @@ import hello.hellospring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -16,10 +18,11 @@ public class MemberService {
      * 회원 가입
      */
     public Long join(Member member){
-        validateDuplicateMember(member); // 중복 회원 검증
 
+        validateDuplicateMember(member); // 중복 회원 검증
         memberRepository.save(member);
         return member.getId();
+
     }
 
     private void validateDuplicateMember(Member member) {
